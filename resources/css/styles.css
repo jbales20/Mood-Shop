@@ -9,7 +9,13 @@ body > header{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  background-color: bisque;
+  background-color: #3d3d3d;
+  color: white;
+}
+
+body > header > h4{
+    position: relative;
+    left: 20px;
 }
 
 body > header > nav > ul{
@@ -22,4 +28,18 @@ body > header > nav > ul > li{
     display: block;
     padding:0.5em;
     text-decoration:none;
-  }
+}
+
+body > header > nav > ul > li > a{
+    text-decoration:none;
+    color: white;
+}
+
+#items{
+    display: flex;
+    flex-direction: column;
+}
+
+#items > text{
+    
+}
