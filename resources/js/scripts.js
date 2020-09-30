@@ -84,13 +84,14 @@ function findTotal(){
 }
 
 // Removes an Item
-function removeItem(name, qty = 0){
+function removeItem(name){
     for (let i = 0; i < cart.length; i += 1){
         if (cart[i].name === name){
-            if (qty > 0){
-                cart[i].qty -= qty
+            console.log(cart[i].qty)
+            if (cart[i].qty > 0){
+                cart[i].qty -= 1
             }
-            if(cart[i].qty < 1 || qty === 0){
+            if(cart[i].qty < 1){
                 cart.splice(i, 1)
             }
             return
