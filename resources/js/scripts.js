@@ -1,4 +1,7 @@
 const itemsContainer = document.getElementById('items')
+const itemList = document.getElementById('item-list') 
+const totalDisplay = document.getElementById('cart-total') 
+const qtyDisplay = document.getElementById('cart-qty') 
 import data from './data.js'
 
 data.forEach(function(elem,i, image){
@@ -52,15 +55,22 @@ function addItem(name, price){
 
 // Show Item
 function showItems(){
-    let qty = getQty()
+    const qty = getQty()
     let total = findTotal()
-    console.log(`You have ${qty} items in your cart`)
+    qtyDisplay.innerHTML += `You have ${qty} items in your cart`
 
+
+    
+    let itemStr = ''
     for (let i = 0; i < cart.length; i += 1){
-        console.log(`- ${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+        // { name: 'Apple', price: 0.99, qty: 3}
+        const { name, price, qty} = cart[i]
+        itemStr += `<li> ${name}  $${price} x ${qty} =  $${qty * price}</li>`
     }
+    itemList.innerHTML = itemStr
 
-    console.log(`Total in cart $${total}`)
+    totalDisplay.innerHTML += `Total in cart $${total}`
+
 }
 
 
@@ -87,7 +97,6 @@ function findTotal(){
 function removeItem(name){
     for (let i = 0; i < cart.length; i += 1){
         if (cart[i].name === name){
-            console.log(cart[i].qty)
             if (cart[i].qty > 0){
                 cart[i].qty -= 1
             }
