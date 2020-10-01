@@ -55,6 +55,8 @@ function addItem(name, price){
 
 // Show Item
 function showItems(){
+    totalDisplay.innerHTML = ""
+    qtyDisplay.innerHTML = ``
     const qty = getQty()
     let total = findTotal()
     qtyDisplay.innerHTML += `You have ${qty} items in your cart`
@@ -94,13 +96,13 @@ function findTotal(){
 }
 
 // Removes an Item
-function removeItem(name){
-    for (let i = 0; i < cart.length; i += 1){
+function removeItem(name){ // the qty parameter is not needed here
+    for (let i = 0; i < cart.length; i++){
         if (cart[i].name === name){
-            if (cart[i].qty > 0){
-                cart[i].qty -= 1
+            if (cart[i].qty > 0) {
+                cart[i].qty--
             }
-            if(cart[i].qty < 1){
+            if (cart[i].qty < 1){
                 cart.splice(i, 1)
             }
             return
@@ -108,11 +110,12 @@ function removeItem(name){
     }
 }
 
-addItem('Apple', 0.99)
-addItem('Orange', 2.99)
-addItem('Apple', 0.99)
-addItem('Taco', 3.12)
-removeItem("Apple")
 
 
-showItems()
+const all_items_button = Array.from(document.querySelectorAll("button"))
+
+
+all_items_button.forEach(elt => elt.addEventListener('click', () => {
+    addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
+    showItems()
+  }))
