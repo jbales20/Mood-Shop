@@ -4,6 +4,48 @@ const totalDisplay = document.getElementById('cart-total')
 const qtyDisplay = document.getElementById('cart-qty') 
 import data from './data.js'
 
+// ---------------------
+// Handle clicks on list
+itemList.onclick = function(e){
+    if (e.target && e.target.classList.contains('remove')){
+        const name = e.target.dataset.name 
+        removeItem(name)
+    }else if(e.target && e.target.classList.contains('subtract')){
+            const name = e.target.dataset.name 
+            removeItem(name, 1)
+    }else if(e.target && e.target.classList.contains('add')){
+        const name = e.target.dataset.name
+        addItem(name)
+        showItems()
+    }
+}
+
+
+
+itemList.onchange = function(e){
+    if (e.target && e.target.classList.contains('update')){
+        const name = e.target.dataset.name
+        const qty = parseInt(e.target.value)
+        console.log(`${name}`)
+        updateCart(name, qty)
+    }
+}
+
+function updateCart(name, qty){
+    for (let i = 0; i < cart.length; i+= 1){
+        console.log(` ${cart[i].name}, and ${name}`)
+        if(cart[i].name === name){
+            if(qty < 1){
+                removeItem(name)
+                return
+            }
+            cart[i].qty = qty
+            showItems()
+            return
+        }
+    }
+}
+
 data.forEach(function(elem,i, image){
     // create a new div element and give it a class name
     let newDiv = document.createElement('div');
@@ -67,7 +109,12 @@ function showItems(){
     for (let i = 0; i < cart.length; i += 1){
         // { name: 'Apple', price: 0.99, qty: 3}
         const { name, price, qty} = cart[i]
-        itemStr += `<li> ${name}  $${price} x ${qty} =  $${qty * price}</li>`
+        itemStr += `<li> ${name}  $${price} x ${qty} =  $${(qty * price).toFixed(2)}
+        <button class="remove" data-name="${name}" >Remove</button>
+        <button class="add" data-name="${name}" >+</button>
+        <button class="subtract" data-name="${name}" >-</button>
+        <input class="update" type="number" data-name="${name}">
+        </li>`
     }
     itemList.innerHTML = itemStr
 
@@ -96,15 +143,16 @@ function findTotal(){
 }
 
 // Removes an Item
-function removeItem(name){ // the qty parameter is not needed here
+function removeItem(name, qty = 0){ // the qty parameter is not needed here
     for (let i = 0; i < cart.length; i++){
         if (cart[i].name === name){
-            if (cart[i].qty > 0) {
-                cart[i].qty--
+            if (qty > 0) {
+                cart[i].qty -= qty
             }
-            if (cart[i].qty < 1){
+            if (qty < 1){
                 cart.splice(i, 1)
             }
+            showItems()
             return
         }
     }
